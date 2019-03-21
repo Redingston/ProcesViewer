@@ -4,9 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProcesViewer"
+        xmlns:vm="clr-namespace:ProcesViewer.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" ItemsSource="{Binding Processes}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding User}" Header="User" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Memory}" Header="Memory" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Padding="5" Margin="0 0 5 0"></TextBox>
+            <Button Command="{Binding SubmitCommand}" Padding="5" Margin="2" Grid.Column="1">Add</Button>
+        </Grid>
     </Grid>
 </Window>

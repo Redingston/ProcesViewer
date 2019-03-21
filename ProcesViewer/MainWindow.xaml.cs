@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ProcesViewer.Models;
+using ProcesViewer.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +26,8 @@ namespace ProcesViewer
         public MainWindow()
         {
             InitializeComponent();
+           
+            DataContext = new ViewProcess();
         }
     }
 }
