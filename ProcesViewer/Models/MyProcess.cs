@@ -18,7 +18,7 @@ namespace ProcesViewer.Models
             set
             {
                 _name = value;
-               // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
         private int _id;
@@ -28,7 +28,7 @@ namespace ProcesViewer.Models
             set
             {
                 _id = value;
-               // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Id"));
+               PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Id"));
             }
         }
         private string _user;
@@ -38,7 +38,7 @@ namespace ProcesViewer.Models
             set
             {
                 _user = value;
-               // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User"));
+               PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User"));
             }
         }
         private long _memory;
@@ -48,7 +48,7 @@ namespace ProcesViewer.Models
             set
             {
                 _memory = value;
-               // PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Memory"));
+               PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Memory"));
             }
         }
     }

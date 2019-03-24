@@ -63,39 +63,37 @@ namespace ProcesViewer.ViewModels
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // private readonly MyProcess processTemp;
+        private MyProcess processTemp;
         public void AddProcess(MyProcess process)
         {
             Processes.Add(process);
         }
 
-        //public ViewProcess()
-        //{
-        //   // Processes = new ObservableCollection<MyProcess>();
-        //    Process[] processes = Process.GetProcesses();
-        //    processTemp = new MyProcess();
-        //    foreach (var p in processes)
-        //    {
-        //        try
-        //        {
-        //            processTemp.Name = p.ProcessName;
-        //            processTemp.Id = p.Id;
-        //            processTemp.User = p.MachineName;
-        //            processTemp.Memory = p.PagedMemorySize64;
-        //            Processes.Add(processTemp);
-        //        }
-        //        catch (Exception)
-        //        {
-        //        }
-        //    }
-        //}
+        public ViewProcess()
+        {
+            Processes = new ObservableCollection<MyProcess>();
+            Process[] processes = Process.GetProcesses();
+          
+            foreach (var p in processes)
+            {
+                try
+                {
+                    processTemp = new MyProcess();
+                    processTemp.Name = p.ProcessName;
+                    processTemp.Id = p.Id;
+                    processTemp.User = p.MachineName;
+                    processTemp.Memory = p.PagedMemorySize64;
+                    Processes.Add(processTemp);
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
 
         protected void NotifyPropertyChanged(string propertyName)
         {
-            if (propertyName!=null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); 
         }
     }
 }
