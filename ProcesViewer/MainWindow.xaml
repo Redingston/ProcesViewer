@@ -27,8 +27,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Padding="5" Margin="0 0 5 0"></TextBox>
-            <Button Command="{Binding SubmitCommand}" Padding="5" Margin="2" Grid.Column="1">Add</Button>
+            <TextBox Text="{Binding Path=NewTask}" Margin="0 0 5 0"></TextBox>
+            <Button Command="{Binding AddProc}" Padding="5" Margin="2" Grid.Column="1">Add</Button>
         </Grid>
     </Grid>
 </Window>

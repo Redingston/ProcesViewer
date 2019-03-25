@@ -8,7 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace ProcesViewer.ViewModels
 {
@@ -43,7 +45,7 @@ namespace ProcesViewer.ViewModels
             {
                 if (_SubmitCommand == null)
                 {
-                    _SubmitCommand = new RelayCommand(SubmitExecute, CanSubmitExecute, false);
+                    _SubmitCommand = new RelayCommand(SubmitExecute, CanSubmitExecute);
                 }
                 return _SubmitCommand;
             }
@@ -73,7 +75,37 @@ namespace ProcesViewer.ViewModels
         {
             Processes = new ObservableCollection<MyProcess>();
             Process[] processes = Process.GetProcesses();
-          
+
+            foreach (var p in processes)
+            {
+                try
+                {
+                    processTemp = new MyProcess();
+                    processTemp.Name = p.ProcessName;
+                    processTemp.Id = p.Id;
+                    processTemp.User = p.MachineName;
+                    processTemp.Memory = p.PagedMemorySize64;
+                    Processes.Add(processTemp);
+                }
+                catch (Exception)
+                {
+                }
+               DispatcherTimer timer2 = new DispatcherTimer(
+               new TimeSpan(0, 0, 5),
+               DispatcherPriority.Normal,
+               ReloadProcesses,
+               App.Current.Dispatcher);
+            }
+        }
+        void ReloadProcesses(object o, EventArgs e)
+        {
+            int? id = null;
+            if (CurrentProcess != null)
+                id = CurrentProcess.Id;
+            Processes.Clear();
+
+            Process[] processes = Process.GetProcesses();
+
             foreach (var p in processes)
             {
                 try
@@ -90,10 +122,58 @@ namespace ProcesViewer.ViewModels
                 }
             }
         }
-
+        MyProcess currentProcess;
+        public MyProcess CurrentProcess
+        {
+            get
+            {
+                return currentProcess;
+            }
+            set
+            {
+                currentProcess = value;
+                NotifyPropertyChanged(nameof(CurrentProcess));
+            }
+        }
         protected void NotifyPropertyChanged(string propertyName)
         {
-              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); 
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public string newTask;
+        public string NewTask
+        {
+            get { return newTask; }
+            set
+            {
+                newTask = value;
+                NotifyPropertyChanged(nameof(NewTask));
+            }
+        }      
+        RelayCommand addProc;
+        public RelayCommand AddProc
+        {
+            get
+            {
+                return addProc ?? (addProc = new RelayCommand((o) =>
+                {
+                    if (NewTask != null && NewTask.Length > 0)
+                    {
+                        try
+                        {
+                            Process.Start(NewTask);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        finally
+                        {
+                            NewTask = "";
+                        }
+                    }
+                }));
+            }
         }
     }
 }

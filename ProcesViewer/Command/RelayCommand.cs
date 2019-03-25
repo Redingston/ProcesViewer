@@ -11,12 +11,11 @@ namespace ProcesViewer.Command
     {
         Action<object> executeAction;
         Func<object, bool> canExecute;
-        bool canExec;
-        public RelayCommand(Action<object> executeAction, Func<object, bool> canExecute, bool canExec)
+  
+        public RelayCommand(Action<object> executeAction, Func<object, bool> canExecute=null)
         {
             this.executeAction = executeAction;
             this.canExecute = canExecute;
-            this.canExec = canExec;
         }
         public event EventHandler CanExecuteChanged
         {
@@ -26,14 +25,7 @@ namespace ProcesViewer.Command
 
         public bool CanExecute(object parameter)
         {
-            if (canExecute==null)
-            {
-                return true;
-            }
-            else
-            {
-                return canExecute(parameter);
-            }
+            return this.canExecute == null || this.canExecute(parameter);
         }
 
         public void Execute(object parameter)
